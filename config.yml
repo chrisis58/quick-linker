@@ -1,0 +1,17 @@
+tasks:
+  mushoku:
+    src: D:\Videos\Downloads\Mushoku Tensei\Season 02
+    dest: D:\Videos\Bangumi\Mushoku Tensei\Season 02
+    rename:
+      enable: true
+      name: Mushoku Tensei
+      season: 2
+      meta: '[Sakurato][AVC-8bit 1080P@60FPS AAC][CHS]'
+  zom100:
+    src: D:\Videos\Downloads\Zom 100 Zombie ni Naru made ni Shitai\Season 01
+    dest: D:\Videos\Bangumi\Zom 100 Zombie ni Naru made ni Shitai\Season 01
+    rename:
+      enable: true
+      name: 僵尸百分百～变成僵尸之前想做的100件事～
+      season: 1
+      meta: '[ANi][1080P][Baha][WEB-DL][AAC AVC][CHT]'
