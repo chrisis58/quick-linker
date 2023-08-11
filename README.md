@@ -13,7 +13,9 @@
 
 ### 1. 下载项目代码
 
-使用git的clone命令或者git网页版下载。
+```shell
+git clone https://github.com/Chr1sis/quick-linker-for-media-system.git
+```
 
 ### 2. 检查依赖
 
