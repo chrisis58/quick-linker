@@ -5,7 +5,7 @@ import time
 import numpy as np
 import yaml
 
-np.seterr(divide='ignore',invalid='ignore')
+
 
 class Show:
     def __init__(self, name, info):
@@ -17,6 +17,8 @@ class Show:
 
         self.src = info.get('src')
         self.dest = info.get('dest')
+        self.exclude = info.get('exclude')
+        self.mute = info.get("mute")
 
         tmp = os.path.split(self.src)
         self.season = tmp[1]
@@ -35,12 +37,19 @@ class Show:
 
         self.season = "{:0>2d}".format(self.season)
 
+        self.episode_list = []
+        self.episode_list_extracted = []
+        self.extract()
+
+    def extract(self):
+        np.seterr(divide='ignore', invalid='ignore')
+
         self.episode_list = os.listdir(self.src)
-        if info.get('exclude') is not None:
-            for item in info.get('exclude'):
+        if self.exclude is not None:
+            for item in self.exclude:
                 self.episode_list = list(filter(lambda x: item not in x, self.episode_list))
-        if info.get('mute') is not None:
-            for item in info.get('mute'):
+        if self.mute is not None:
+            for item in self.mute:
                 episode_list = [t.replace(item, "") for t in self.episode_list]
         else:
             episode_list = self.episode_list
@@ -55,7 +64,7 @@ class Show:
                 confidence[item] = confidence[item] + 1
         max_count = -1
         num_length = -1
-        for length,count in confidence.items():
+        for length, count in confidence.items():
             if max_count < count:
                 max_count = count
                 num_length = length
@@ -78,7 +87,6 @@ class Show:
     def do_hard_link(self):
         if not self.enable:
             return
-
         print("task {task_name} start".format(task_name=self.task_name))
         if not self.do_rename:
             for epi in self.episode_list:
@@ -125,6 +133,7 @@ class Show:
                 self.show = show_obj
 
             def on_created(self, event):
+                self.show.extract()
                 self.show.do_hard_link()
         return custom_handler(self)
 
