@@ -32,10 +32,15 @@ pip install numpy pyyaml
 配置文件(名字需要为`config.yaml`或者`config.yml`)的模板如下：
 
 ```yaml
+config:
+  watchdog:
+    enable: true
 tasks:
   <task1>:
     src: <task src path>
     dest: <task dest path>
+    exclude: [<exclude>...]
+    mute: [<mute>...]
     rename:
       enable: <do rename or not, default to false>
       name: <tv show name>
@@ -48,11 +53,16 @@ tasks:
 - src：必要，代表源文件所在目录
   - 注：脚本可以根据路径自动提取节目的部分信息，请务必按照`{path}/{tv name}/{season}/`的格式设置文件结构
 - dest：必要，代表目标目录
-- rename：可省略，默认为不进行重命名
-  - enable：可省略，默认不进行重命名
-  - name：可省略，手动输入节目名字，默认由源文件目录获取
-  - season：可省略，手动输入节目季，默认由源文件目录获取
-  - meta：可省略，节目元信息，默认为空
+- rename：可选，默认为不进行重命名
+  - enable：可选，默认不进行重命名
+  - name：可选，手动输入节目名字，默认由源文件目录获取
+  - season：可选，手动输入节目季，默认由源文件目录获取
+  - meta：可选，节目元信息，默认为空
+- exclude: 可选，在src目录下包含<exclude>的文件不会被包含进集数(episode)的计算，默认为空
+- mute：可选，在src目录下所有文件名中的<mute>都会被替换成空再进行集数的计算，默认为空
+  - 例如：'abcba.mp4' ----mute('b')----> 'aca.mp4'
+
+- watchdog.enable 可选，代表是否启用watchdog进行文件夹的监听，默认为不进行
 
 > 重命名的默认格式为`{name} - S{season}E{episode} - {meta}.{extension}`
 
@@ -65,17 +75,17 @@ tasks:
     dest: D:\Videos\Bangumi\Mushoku Tensei\Season 02
     rename:
       enable: true
-      name: Mushoku Tensei
-      season: 2
       meta: '[Sakurato][AVC-8bit 1080P@60FPS AAC][CHS]'
-  zom100:
-    src: D:\Videos\Downloads\Zom 100 Zombie ni Naru made ni Shitai\Season 01
-    dest: D:\Videos\Bangumi\Zom 100 Zombie ni Naru made ni Shitai\Season 01
+  eightysix:
+    src: 'E:\download\Eitishikkusu\Season 01\[Sakurato][20210410] 86—Eitishikkusu— [01-23 Fin v2][TVRip][1080p][CHS&CHT]'
+    dest: E:\Bangumi\Eitishikkusu\Season 01
+    exclude: ['.zip']
+    mute: ['v2']
     rename:
       enable: true
-      name: 僵尸百分百～变成僵尸之前想做的100件事～
+      name: 86—Eitishikkusu
       season: 1
-      meta: '[ANi][1080P][Baha][WEB-DL][AAC AVC][CHT]'
+      meta: '[Sakurato][HEVC-10bit 1080p AAC][CHS&CHT]'
 ```
 
 ### 4. 运行
