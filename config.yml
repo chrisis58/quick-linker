@@ -1,3 +1,6 @@
+config:
+  watchdog:
+    enable: true
 tasks:
   mushoku:
     src: D:\Videos\Downloads\Mushoku Tensei\Season 02
@@ -6,7 +9,7 @@ tasks:
       enable: true
       name: Mushoku Tensei
       season: 2
-      meta: '[Sakurato][AVC-8bit 1080P@60FPS AAC][CHS]'
+      meta: '[Sakurato][AVC-8bit 1080P AAC][CHS]'
   zom100:
     src: D:\Videos\Downloads\Zom 100 Zombie ni Naru made ni Shitai\Season 01
     dest: D:\Videos\Bangumi\Zom 100 Zombie ni Naru made ni Shitai\Season 01
@@ -15,3 +18,23 @@ tasks:
       name: 僵尸百分百～变成僵尸之前想做的100件事～
       season: 1
       meta: '[ANi][1080P][Baha][WEB-DL][AAC AVC][CHT]'
+  vinland:
+    enable: false
+    src: 'E:\download\Vinland Saga\Season 02\[BeanSub&LoliHouse] Vinland Saga S2 [WebRip 1080p HEVC-10bit AAC ASSx2]'
+    dest: E:\Bangumi\Vinland Saga\Season 02
+    exclude: ['.zip']
+    rename:
+      enable: true
+      name: Vinland Saga
+      season: 2
+      meta: '[BeanSub&LoliHouse][WebRip 1080p HEVC-10bit AAC ASSx2]'
+  eightysix:
+    src: 'E:\download\Eitishikkusu\Season 01\[Sakurato][20210410] 86—Eitishikkusu— [01-23 Fin v2][TVRip][1080p][CHS&CHT]'
+    dest: E:\Bangumi\Eitishikkusu\Season 01
+    exclude: ['.zip']
+    mute: ['v2']
+    rename:
+      enable: true
+      name: 86—Eitishikkusu
+      season: 1
+      meta: '[Sakurato][HEVC-10bit 1080p AAC][CHS&CHT]'
