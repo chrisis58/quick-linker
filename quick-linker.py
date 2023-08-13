@@ -39,20 +39,21 @@ class Show:
 
         self.episode_list = []
         self.episode_list_extracted = []
-        self.extract()
 
     def extract(self):
         np.seterr(divide='ignore', invalid='ignore')
 
         self.episode_list = os.listdir(self.src)
+        if len(self.episode_list) == 0:
+            return
+
         if self.exclude is not None:
             for item in self.exclude:
                 self.episode_list = list(filter(lambda x: item not in x, self.episode_list))
+        episode_list = self.episode_list
         if self.mute is not None:
             for item in self.mute:
-                episode_list = [t.replace(item, "") for t in self.episode_list]
-        else:
-            episode_list = self.episode_list
+                episode_list = [t.replace(item, "") for t in episode_list]
 
         self.episode_list_extracted = [re.compile("\d+\.?\d*").findall(epi) for epi in episode_list]
 
@@ -88,6 +89,7 @@ class Show:
         if not self.enable:
             return
         print("task {task_name} start".format(task_name=self.task_name))
+        self.extract()
         if not self.do_rename:
             for epi in self.episode_list:
                 if not os.path.exists(os.path.join(self.dest, epi)):
@@ -133,7 +135,6 @@ class Show:
                 self.show = show_obj
 
             def on_created(self, event):
-                self.show.extract()
                 self.show.do_hard_link()
         return custom_handler(self)
 
@@ -189,3 +190,8 @@ if __name__ == "__main__":
 
             show = Show(task_name, task_info)
             show.do_hard_link()
+
+
+
+
+
