@@ -1,5 +1,7 @@
 # quick-linker-for-media-system
 
+See the [readme in english](./README-EN.md) for english readme.
+
 ## 前言
 
 众所周知，在媒体系统(EMBY、JellyFin、Plex)中，刮削对剧集文件的名称有一定要求，否则会影响刮削准确度。
