@@ -1,4 +1,5 @@
 # quick-linker-for-media-system
+
 ## 前言
 
 众所周知，在媒体系统(EMBY、JellyFin、Plex)中，刮削对剧集文件的名称有一定要求，否则会影响刮削准确度。
@@ -36,7 +37,7 @@ pip install numpy pyyaml
 
 ### 3. 编写配置文件
 
-配置文件(名字需要为`config.yaml`或者`config.yml`)的模板如下：
+配置文件使用YAML格式，(名字需要为`config.yaml`或者`config.yml`)的模板如下：
 
 ```yaml
 config:
@@ -63,23 +64,19 @@ tasks:
   - enable: 可选，是否启用该任务，默认为启用
   - src：必要，代表源文件所在目录
     - 注：脚本可以根据路径自动提取节目的部分信息，请务必按照`{path}/{tv name}/{season}/`的格式设置文件结构
-
   - dest：必要，代表目标目录
   - rename：可选，默认为不进行重命名
     - enable：可选，默认不进行重命名
     - name：可选，手动输入节目名字，默认由源文件目录获取
     - season：可选，手动输入节目季，默认由源文件目录获取
     - meta：可选，节目元信息，默认为空
-
   - exclude: 可选，在src目录下包含<exclude>的文件不会被包含进集数(episode)的计算，默认为空
   - mute：可选，在src目录下所有文件名中的<mute>都会被替换成空再进行集数的计算，默认为空
     - 例如：'abcba.mp4' ----mute('b')----> 'aca.mp4'
-
 - config.watchdog
   - enable 可选，代表是否启用watchdog进行文件夹的监听，默认为不进行
 
   - one-instance 可选，是否启用单例模式(启动脚本时会自动关闭上次运行的脚本)，默认为启用
-
 
 > 重命名的默认格式为`{name} - S{season}E{episode} - {meta}.{extension}`
 
@@ -119,6 +116,13 @@ tasks:
 
 运行前请保证配置文件(.yml或者.yaml)和脚本(.py)在同一目录下。
 
+```shell
+│
+└───quick-linker-for-media-system
+        config.yml
+        quick-linker.py
+```
+
 直接运行py脚本即可。
 
 ### 5. 可能遇到的问题
@@ -127,3 +131,4 @@ tasks:
 - 你只能在同一盘符下做硬链接(win10)
 - 在集数较少(比如只有一集或者两集)的情况下本脚本对剧集的episode的判定准确率会有问题，可以添加tasks.task.mute来提高准确率
   - 例如：'Urusei Yatsura 2022 \[01]\[WebRip 1080p HEVC-10bit AAC ASSx2].mkv' \-\-mute('2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]') \-\-> 'Urusei Yatsura [01].mkv'，这样可以大大提高准确率 
+- 如果遇到无法启动的问题，请尝试将.py脚本同目录下的名为`pid`文件删除后重新运行
