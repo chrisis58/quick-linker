@@ -36,7 +36,7 @@ pip install numpy pyyaml
 
 ### 3. 编写配置文件
 
-配置文件(名字需要为`config.yaml`或者`config.yml`)的模板如下：
+配置文件使用YAML格式，(名字需要为`config.yaml`或者`config.yml`)的模板如下：
 
 ```yaml
 config:
@@ -119,6 +119,13 @@ tasks:
 
 运行前请保证配置文件(.yml或者.yaml)和脚本(.py)在同一目录下。
 
+```shell
+│
+└───quick-linker-for-media-system
+        config.yml
+        quick-linker.py
+```
+
 直接运行py脚本即可。
 
 ### 5. 可能遇到的问题
@@ -127,3 +134,4 @@ tasks:
 - 你只能在同一盘符下做硬链接(win10)
 - 在集数较少(比如只有一集或者两集)的情况下本脚本对剧集的episode的判定准确率会有问题，可以添加tasks.task.mute来提高准确率
   - 例如：'Urusei Yatsura 2022 \[01]\[WebRip 1080p HEVC-10bit AAC ASSx2].mkv' \-\-mute('2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]') \-\-> 'Urusei Yatsura [01].mkv'，这样可以大大提高准确率 
+- 如果遇到无法启动的问题，请尝试将.py脚本同目录下的名为`pid`文件删除后重新运行
