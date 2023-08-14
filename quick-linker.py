@@ -11,7 +11,7 @@ class Show:
     def __init__(self, name, info):
         self.task_name = name
         if not os.path.isdir(info.get('src')) or not os.path.isdir(info.get('dest')):
-            raise RuntimeError("path is not invalid!")
+            raise RuntimeError("path is invalid!")
 
         self.enable = info.get("enable", True)
 
@@ -57,21 +57,10 @@ class Show:
 
         self.episode_list_extracted = [re.compile("\d+\.?\d*").findall(epi) for epi in episode_list]
 
-        confidence = {}
-        for item in [len(item) for item in self.episode_list_extracted]:
-            if confidence.get(item) is None:
-                confidence[item] = 1
-            else:
-                confidence[item] = confidence[item] + 1
-        max_count = -1
-        num_length = -1
-        for length, count in confidence.items():
-            if max_count < count:
-                max_count = count
-                num_length = length
+        length = np.argmax(np.bincount([len(item) for item in self.episode_list_extracted]))
 
         for i in range(len(self.episode_list_extracted)):
-            if len(self.episode_list_extracted[i]) != num_length:
+            if len(self.episode_list_extracted[i]) != length:
                 self.episode_list_extracted.remove(self.episode_list_extracted[i])
                 self.episode_list.remove(self.episode_list[i])
         self.episode_list_extracted = np.asarray(self.episode_list_extracted, dtype=float)
@@ -138,7 +127,6 @@ class Show:
                 self.show.do_hard_link()
         return custom_handler(self)
 
-
     @staticmethod
     def get_whole_ext(file):
         info = os.path.splitext(file)
@@ -155,18 +143,30 @@ class Show:
 
 if __name__ == "__main__":
     try:
-        with open("config.yml", encoding='utf-8') as yml:
+        with open("config.yml", encoding='utf-8', mode='r') as yml:
             data = yaml.load(yml, Loader=yaml.FullLoader)
     except FileNotFoundError:
         try:
-            with open("config.yaml", encoding='utf-8') as yml:
+            with open("config.yaml", encoding='utf-8', mode='r') as yml:
                 data = yaml.load(yml, Loader=yaml.FullLoader)
         except FileNotFoundError:
             print("config file cannot be find!")
 
     config = data.get("config")
 
-    if config is not None and config.get("watchdog") is not None and config.get("watchdog", False):
+    if config is not None and config.get("watchdog") is not None and config.get("watchdog").get("enable", False):
+        if config.get("watchdog").get("one-instance", True):
+            try:
+                with open("pid", mode='r') as pid_file:
+                    pid_str = pid_file.readline()
+                    os.kill(int(pid_str), 9)
+            except FileNotFoundError:
+                pass
+            with open("pid", mode='a') as pid_file:
+                pid_file.seek(0)
+                pid_file.truncate()
+                pid_file.write(os.getpid().__str__())
+
         thread_list = []
         for task_name in data['tasks']:
             task_info = data['tasks'][task_name]
@@ -177,7 +177,6 @@ if __name__ == "__main__":
             thread.daemon = True
             thread_list.append(thread)
             thread.start()
-
         try:
             while True:
                 time.sleep(10)
@@ -190,8 +189,3 @@ if __name__ == "__main__":
 
             show = Show(task_name, task_info)
             show.do_hard_link()
-
-
-
-
-
