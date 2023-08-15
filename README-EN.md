@@ -45,9 +45,9 @@ config:
     enable: <true | false, default to false>
     one-instance: <true | false, default to true>
   global:
-  	exclude: [<global exclude>...]
-  	mute: [<global mute>]
-  	format: <global format>
+    exclude: [<global exclude>...]
+    mute: [<global mute>]
+    format: <global format>
 tasks:
   <task1>:
     enable: <true | false, default to true>
@@ -94,11 +94,11 @@ One config instance:
 ```yaml
 config:
   watchdog:
-  	enable: true
+    enable: true
   global:
-  	exclude: ['.zip']
-  	mute: ['1080P']
-	format: '{name} - S{season}E{episode} - {meta}'
+    exclude: ['.zip']
+    mute: ['1080P']
+    format: '{name} - S{season}E{episode} - {meta}'
 tasks:
   mushoku:
     src: D:\Videos\Downloads\Mushoku Tensei\Season 02
