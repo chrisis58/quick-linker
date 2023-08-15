@@ -44,6 +44,10 @@ config:
   watchdog:
     enable: <true | false, default to false>
     one-instance: <true | false, default to true>
+  global:
+  	exclude: [<global exclude>...]
+  	mute: [<global mute>]
+  	format: <global format>
 tasks:
   <task1>:
     enable: <true | false, default to true>
@@ -53,6 +57,7 @@ tasks:
     mute: [<mute>...]
     rename:
       enable: <true | false, default to true>
+      format: <file name format, default to global.format>
       name: <tv show name>
       season: <tv show season>
       meta: <tv show meta>
@@ -77,39 +82,51 @@ tasks:
   - enable: Optional, whether enable watchdog to monitor src, default to false
 
   - one-instance: Optional, whether enable one-instance mode, which means the new process will terminate the older one, default to true
-  
+- config.global
+  - exclude: Optional, all tasks' default exclude, default to none
+  - mute: Optional, all tasks' default mute, default to none
+  - format: Optional, all tasks‘ default rename format, default to `{name} - S{season}E{episode}`
 
-> The default rename pattern is `{name} - S{season}E{episode} - {meta}.{extension}`
+> conifg in global will be overwritten by tasks' own config
 
 One config instance: 
 
 ```yaml
+config:
+  watchdog:
+  	enable: true
+  global:
+  	exclude: ['.zip']
+  	mute: ['1080P']
+	format: '{name} - S{season}E{episode} - {meta}'
 tasks:
   mushoku:
     src: D:\Videos\Downloads\Mushoku Tensei\Season 02
     dest: D:\Videos\Bangumi\Mushoku Tensei\Season 02
     rename:
       enable: true
+      # name and season will be auto extracted in src path
       meta: '[Sakurato][AVC-8bit 1080P@60FPS AAC][CHS]'
   eightysix:
     enable: false
     src: 'E:\download\Eitishikkusu\Season 01\[Sakurato][20210410] 86—Eitishikkusu— [01-23 Fin v2][TVRip][1080p][CHS&CHT]'
     dest: E:\Bangumi\Eitishikkusu\Season 01
     exclude: ['.zip']
-    mute: ['v2']
     rename:
       enable: true
+      # overwrite format
+      format: '{uploader} {name} - S{season}E{episode} - {meta}'
       name: 86—Eitishikkusu
       season: 1
-      meta: '[Sakurato][HEVC-10bit 1080p AAC][CHS&CHT]'
+      # add new tags depends on the format
+      uploader: '[Sakurato]'
+      meta: '[HEVC-10bit 1080p AAC][CHS&CHT]'
    urusei_yatsura:
     src: 'E:\download\Urusei Yatsura(2022)\Season 01'
     dest: 'E:\Bangumi\Urusei Yatsura(2022)\Season 01'
     mute: ['2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]']
     rename:
       enable: true
-      name: Urusei Yatsura 2022
-      season: 1
       meta: '[Nekomoe kissaten&LoliHouse][WebRip 1080p HEVC-10bit AAC ASSx2]'
 ```
 
@@ -132,4 +149,3 @@ Then just run it!
 - You can only make hard link in the same disk symbol.
 - If src dirctory has few episode file(less than 2)，the auto-dect's accuracy may be low. Try adding tasks.task.mute tag in config to improve it.
   - e.g. 'Urusei Yatsura 2022 \[01]\[WebRip 1080p HEVC-10bit AAC ASSx2].mkv' \-\-mute('2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]') \-\-> 'Urusei Yatsura [01].mkv', it can significantly improve the accuracy.
-- If the script cannot be executed, please delete the `pid` named file in the same dirctory and then re-run. 
