@@ -31,7 +31,7 @@ git clone https://github.com/Chr1sis/quick-linker-for-media-system.git
 
 本脚本依赖`Python`执行，作者使用的版本为3.9.6。
 
-依赖库包括os，re，numpy和pyyaml，后两者可能需要额外安装。
+依赖库包括numpy和pyyaml，使用以下命令安装。
 
 ```shell
 pip install numpy pyyaml
@@ -46,6 +46,10 @@ config:
   watchdog:
     enable: <true | false, default to false>
     one-instance: <true | false, default to true>
+  global:
+  	exclude: [<global exclude>...]
+  	mute: [<global mute>]
+  	format: <global format>
 tasks:
   <task1>:
     enable: <true | false, default to true>
@@ -55,6 +59,7 @@ tasks:
     mute: [<mute>...]
     rename:
       enable: <true | false, default to true>
+      format: <file name format, default to global.format>
       name: <tv show name>
       season: <tv show season>
       meta: <tv show meta>
@@ -75,42 +80,55 @@ tasks:
   - exclude: 可选，在src目录下包含<exclude>的文件不会被包含进集数(episode)的计算，默认为空
   - mute：可选，在src目录下所有文件名中的<mute>都会被替换成空再进行集数的计算，默认为空
     - 例如：'abcba.mp4' ----mute('b')----> 'aca.mp4'
-- config.watchdog
+- config.watchdog 监听模式选项
   - enable 可选，代表是否启用watchdog进行文件夹的监听，默认为不进行
 
   - one-instance 可选，是否启用单例模式(启动脚本时会自动关闭上次运行的脚本)，默认为启用
+- config.global 全局配置
+  - exclude: 可选，为所有task.exclude添加内容，默认为空
+  - mute: 可选，为所有task.mute添加内容，默认为空
+  - format: 可选，文件重命名模板，默认为`{name} - S{season}E{episode}`
 
-> 重命名的默认格式为`{name} - S{season}E{episode} - {meta}.{extension}`
+> 全局配置中的选项将会被task标签内的配置所覆盖
 
 以下为案例：
 
 ```yaml
+config:
+  watchdog:
+  	enable: true
+  global:
+  	exclude: ['.zip']
+  	mute: ['1080P']
+	format: '{name} - S{season}E{episode} - {meta}'
 tasks:
   mushoku:
     src: D:\Videos\Downloads\Mushoku Tensei\Season 02
     dest: D:\Videos\Bangumi\Mushoku Tensei\Season 02
     rename:
       enable: true
+      # name 和 season 会自动从路径中获取
       meta: '[Sakurato][AVC-8bit 1080P@60FPS AAC][CHS]'
   eightysix:
     enable: false
     src: 'E:\download\Eitishikkusu\Season 01\[Sakurato][20210410] 86—Eitishikkusu— [01-23 Fin v2][TVRip][1080p][CHS&CHT]'
     dest: E:\Bangumi\Eitishikkusu\Season 01
     exclude: ['.zip']
-    mute: ['v2']
     rename:
       enable: true
+      # 自定义重写文件名模板
+      format: '{uploader} {name} - S{season}E{episode} - {meta}'
       name: 86—Eitishikkusu
       season: 1
-      meta: '[Sakurato][HEVC-10bit 1080p AAC][CHS&CHT]'
+      # 根据文件名模板添加标签
+      uploader: '[Sakurato]'
+      meta: '[HEVC-10bit 1080p AAC][CHS&CHT]'
    urusei_yatsura:
     src: 'E:\download\Urusei Yatsura(2022)\Season 01'
     dest: 'E:\Bangumi\Urusei Yatsura(2022)\Season 01'
     mute: ['2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]']
     rename:
       enable: true
-      name: Urusei Yatsura 2022
-      season: 1
       meta: '[Nekomoe kissaten&LoliHouse][WebRip 1080p HEVC-10bit AAC ASSx2]'
 ```
 
@@ -133,4 +151,3 @@ tasks:
 - 你只能在同一盘符下做硬链接(win10)
 - 在集数较少(比如只有一集或者两集)的情况下本脚本对剧集的episode的判定准确率会有问题，可以添加tasks.task.mute来提高准确率
   - 例如：'Urusei Yatsura 2022 \[01]\[WebRip 1080p HEVC-10bit AAC ASSx2].mkv' \-\-mute('2022', '[WebRip 1080p HEVC-10bit AAC ASSx2]') \-\-> 'Urusei Yatsura [01].mkv'，这样可以大大提高准确率 
-- 如果遇到无法启动的问题，请尝试将.py脚本同目录下的名为`pid`文件删除后重新运行
