@@ -6,6 +6,7 @@ import re
 
 from src.module.bean import QuickLinkerConfig
 from src.module.linker import Linker
+from src.module.utils.file_extension_util import get_whole_ext
 
 class QuickLinker(Linker):
 
