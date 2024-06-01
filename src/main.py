@@ -1,6 +1,6 @@
 from src.module.linker import QuickLinker
 from src.module.bean import QuickLinkerConfig
-from src.module.executor import ListenerExecutor, DisposableExecutor
+from src.module.executor import ExecutorFactory
 
 if __name__ == "__main__":
     config = QuickLinkerConfig(
@@ -17,8 +17,14 @@ if __name__ == "__main__":
 
     linker = QuickLinker(config)
 
-    executor = DisposableExecutor(lambda : linker.ln(src, dest))
+    executor = ExecutorFactory.create_executor(
+        ExecutorFactory.ExecutorType.LISTENER,
+        lambda: linker.ln(src, dest),
+        path = src
+    )
     executor.execute()
+
+    executor.join()
 
 
 

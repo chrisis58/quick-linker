@@ -4,9 +4,11 @@ from src.module.executor.executor import Executor
 
 class DisposableExecutor(Executor):
 
-    def __init__(self, todo: Callable[[], None]):
-        self._todo = todo
+    def __init__(self, job: Callable[[], None]):
+        super().__init__()
+        self._job = job
 
     def execute(self):
-        self._todo()
+        self.start()
+        self._job()
         del self

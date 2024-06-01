@@ -18,6 +18,11 @@ class WatchdogListener(Listener):
             recursive = False
         )
         observer.start()
+        try:
+            while observer.is_alive():
+                observer.join(1)
+        finally:
+            observer.join()
 
     @staticmethod
     def get_on_add_handler(on_add: Callable[[], None]) -> FileSystemEventHandler:
