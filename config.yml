@@ -1,0 +1,16 @@
+config:
+  watchdog:
+    enable: true
+  global:
+    mute: ['1080P']
+    exclude: ['.zip']
+    format: '{name} - S{season}E{episode} - {meta}'
+tasks:
+  mushoku:
+    src: D:\Videos\Downloads\Mushoku Tensei\Season 02
+    dest: D:\Videos\Bangumi\Mushoku Tensei\Season 02
+    rename:
+      enable: true
+      name: Mushoku Tensei
+      season: 2
+      meta: '[Sakurato][AVC-8bit 1080P AAC][CHS]'
