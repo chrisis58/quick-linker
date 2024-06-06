@@ -18,6 +18,9 @@ class QuickLinker(Linker):
         file_list = listdir(src)
         ln_dict = self.extract(file_list)
 
+        if not path.exists(dest):
+            os.mkdir(dest)
+
         for file in file_list:
             target = path.join(dest, ln_dict.get(file, file))
             if not os.path.exists(target):
