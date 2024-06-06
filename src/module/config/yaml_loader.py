@@ -18,7 +18,7 @@ class YamlLoader(ConfigLoader):
             print(e)
         return self._config
 
-    def get(self, identifier: str, default: any) -> any:
+    def get(self, identifier: str, default: any = None) -> any:
         keys = identifier.split('.')
         value = self._config
         try:

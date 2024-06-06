@@ -13,7 +13,7 @@ class ConfigLoader(ABC):
         pass
 
     @abstractmethod
-    def get(self, identifier: str, default: any) -> any:
+    def get(self, identifier: str, default: any = None) -> any:
         """
         从配置项字典中获取需要的配置
 
