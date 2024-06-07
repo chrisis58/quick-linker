@@ -1,6 +1,7 @@
 from dataclasses import asdict, is_dataclass
 from typing import Type
 
+from src.module.utils import combine_dicts
 
 from .global_config_strategy import GlobalConfigStrategy
 
@@ -15,15 +16,13 @@ def EnableGlobalConfig(strategy: GlobalConfigStrategy = GlobalConfigStrategy.OVE
             if not is_dataclass(global_config):
                 raise TypeError("global_config must be a dataclass instance")
 
-            if strategy == GlobalConfigStrategy.OVERRIDE:
-                combined_kwargs = {**asdict(global_config), **kwargs}
-                return cls(*args, **combined_kwargs)
-
-            elif strategy == GlobalConfigStrategy.EXTEND:
-                combined_kwargs = {**kwargs, **asdict(global_config)}
-                return cls(*args, **combined_kwargs)
-
-            else:
+            try:
+                combined_dict = combine_dicts(
+                    asdict(global_config), kwargs,
+                    conflict_handler = strategy
+                )
+                return cls(*args, **combined_dict)
+            except:
                 raise RuntimeError("strategy not supported!")
 
         return wrapper_in

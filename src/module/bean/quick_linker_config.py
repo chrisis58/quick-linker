@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from src.module.decorator import EnableGlobalConfig
+from src.module.decorator import EnableGlobalConfig, GlobalConfigStrategy
 
-@EnableGlobalConfig()
+@EnableGlobalConfig(GlobalConfigStrategy.EXTEND)
 @dataclass
 class QuickLinkerConfig:
     """
