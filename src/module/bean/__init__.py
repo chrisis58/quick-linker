@@ -1,1 +1,2 @@
 from .quick_linker_config import QuickLinkerConfig
+from .global_config import GlobalConfig
