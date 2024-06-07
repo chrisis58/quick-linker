@@ -8,7 +8,7 @@ class YamlLoader(ConfigLoader):
     def __init__(self):
         self._config = dict()
 
-    def load(self, path: str) -> dict[str, any]:
+    def load(self, path: str) -> ConfigLoader:
         try:
             with open(path, encoding='utf-8', mode='r') as yml:
                 self._config = yaml.load(yml, Loader=yaml.FullLoader)
@@ -16,7 +16,7 @@ class YamlLoader(ConfigLoader):
             print("config file cannot be find!")
         except Exception as e:
             print(e)
-        return self._config
+        return self
 
     def get(self, identifier: str, default: any = None) -> any:
         keys = identifier.split('.')

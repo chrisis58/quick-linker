@@ -1,9 +1,17 @@
 from abc import ABC, abstractmethod
 
-class ConfigLoader(ABC):
+class Loader:
+    def load(self, path: str):
+        pass
+
+    def get(self, identifier: str, default: any):
+        pass
+
+
+class ConfigLoader(ABC, Loader):
 
     @abstractmethod
-    def load(self, path: str) -> dict[str, any]:
+    def load(self, path: str) -> Loader:
         """
         从外部文件中加载配置项
 
