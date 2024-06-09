@@ -1,10 +1,11 @@
 from typing import Callable
 
+from src.module.decorator import Logger
 from src.module.listener.listener import Listener
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-
+@Logger
 class WatchdogListener(Listener):
 
     def listen(self,
@@ -18,6 +19,7 @@ class WatchdogListener(Listener):
             recursive = False
         )
         observer.start()
+        self.log.info(f"observer successfully inited, listening `{path}`")
         try:
             while observer.is_alive():
                 observer.join(1)

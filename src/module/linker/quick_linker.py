@@ -5,9 +5,11 @@ import numpy as np
 import re
 
 from src.module.bean import QuickLinkerConfig
+from src.module.decorator import Logger
 from src.module.linker import Linker
 from src.module.utils.file_extension_util import get_whole_ext
 
+@Logger
 class QuickLinker(Linker):
 
     def __init__(self, config: QuickLinkerConfig):
@@ -24,6 +26,7 @@ class QuickLinker(Linker):
         for file in file_list:
             target = path.join(dest, ln_dict.get(file, file))
             if not os.path.exists(target):
+                self.log.info(f"make link: {path.join(src, file)} -> {target}")
                 link(path.join(src, file), target)
 
 

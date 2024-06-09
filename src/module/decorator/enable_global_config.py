@@ -7,8 +7,6 @@ from .global_config_strategy import GlobalConfigStrategy
 
 def EnableGlobalConfig(strategy: GlobalConfigStrategy = GlobalConfigStrategy.OVERRIDE):
     def decorator(cls: Type):
-        print(f"Decorating class: {cls.__name__}")
-
         def wrapper_in(*args, **kwargs):
             from src.module.bean import GlobalConfig
 
