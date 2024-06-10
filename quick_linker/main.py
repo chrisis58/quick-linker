@@ -1,7 +1,7 @@
-from src.module.config import YamlLoader
-from src.module.linker import QuickLinker
-from src.module.bean import QuickLinkerConfig, GlobalConfig
-from src.module.executor import ExecutorFactory
+from quick_linker.config import YamlLoader
+from quick_linker.linker import QuickLinker
+from quick_linker.bean import QuickLinkerConfig, GlobalConfig
+from quick_linker.executor import ExecutorFactory
 
 if __name__ == "__main__":
 
@@ -18,9 +18,12 @@ if __name__ == "__main__":
         lambda: linker.ln(src, dest),
         path = src
     )
-    executor.execute()
-
-    executor.join()
+    
+    try:
+        executor.execute()
+        executor.join()
+    except InterruptedError:
+        print("process terminalted")
 
 
 

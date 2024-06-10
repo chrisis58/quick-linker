@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from src.module.decorator import EnableGlobalConfig, GlobalConfigStrategy
+from quick_linker.decorator import EnableGlobalConfig, GlobalConfigStrategy
 
 @EnableGlobalConfig(GlobalConfigStrategy.EXTEND)
 @dataclass

@@ -1,14 +1,14 @@
 from dataclasses import asdict, is_dataclass
 from typing import Type
 
-from src.module.utils import combine_dicts
+from quick_linker.utils import combine_dicts
 
 from .global_config_strategy import GlobalConfigStrategy
 
 def EnableGlobalConfig(strategy: GlobalConfigStrategy = GlobalConfigStrategy.OVERRIDE):
     def decorator(cls: Type):
         def wrapper_in(*args, **kwargs):
-            from src.module.bean import GlobalConfig
+            from quick_linker.bean import GlobalConfig
 
             global_config = GlobalConfig()
             if not is_dataclass(global_config):

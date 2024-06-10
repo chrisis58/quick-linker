@@ -1,7 +1,7 @@
 from typing import Callable
 
-from src.module.executor.executor import Executor
-from src.module.listener.watchdog_listener import WatchdogListener
+from quick_linker.executor.executor import Executor
+from quick_linker.listener.watchdog_listener import WatchdogListener
 
 
 class ListenerExecutor(Executor):

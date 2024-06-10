@@ -2,7 +2,7 @@
 import yaml
 
 from .loader import ConfigLoader
-from src.module.decorator import Logger
+from quick_linker.decorator import Logger
 
 @Logger
 class YamlLoader(ConfigLoader):

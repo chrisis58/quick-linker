@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from src.module.decorator import Singleton
+from quick_linker.decorator import Singleton
 
 @Singleton
 @dataclass

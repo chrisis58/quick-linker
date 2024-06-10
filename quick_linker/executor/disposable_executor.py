@@ -1,6 +1,6 @@
 from typing import Callable
 
-from src.module.executor.executor import Executor
+from quick_linker.executor.executor import Executor
 
 class DisposableExecutor(Executor):
 

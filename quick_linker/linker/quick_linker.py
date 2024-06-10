@@ -4,10 +4,10 @@ from os import link, listdir, path
 import numpy as np
 import re
 
-from src.module.bean import QuickLinkerConfig
-from src.module.decorator import Logger
-from src.module.linker import Linker
-from src.module.utils.file_extension_util import get_whole_ext
+from quick_linker.bean import QuickLinkerConfig
+from quick_linker.decorator import Logger
+from quick_linker.linker import Linker
+from quick_linker.utils.file_extension_util import get_whole_ext
 
 @Logger
 class QuickLinker(Linker):

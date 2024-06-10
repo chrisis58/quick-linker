@@ -1,7 +1,7 @@
 from typing import Callable
 
-from src.module.decorator import Logger
-from src.module.listener.listener import Listener
+from quick_linker.decorator import Logger
+from quick_linker.listener.listener import Listener
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
