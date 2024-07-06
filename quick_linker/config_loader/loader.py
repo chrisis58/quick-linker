@@ -1,22 +1,17 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
-class Loader:
-    def load(self, path: str):
-        pass
 
-    def get(self, identifier: str, default: any):
-        pass
-
-
-class ConfigLoader(ABC, Loader):
+class ConfigLoader(ABC):
 
     @abstractmethod
-    def load(self, path: str) -> Loader:
+    def load(self, path: str) -> ConfigLoader:
         """
         从外部文件中加载配置项
 
         :param path: 配置文件的路径
-        :return: 配置项字典
+        :return: 返回 Loader 对象，便于链式调用
         """
         pass
 

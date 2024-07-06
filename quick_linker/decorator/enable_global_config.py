@@ -8,7 +8,7 @@ from .global_config_strategy import GlobalConfigStrategy
 def EnableGlobalConfig(strategy: GlobalConfigStrategy = GlobalConfigStrategy.OVERRIDE):
     def decorator(cls: Type):
         def wrapper_in(*args, **kwargs):
-            from quick_linker.bean import GlobalConfig
+            from quick_linker.config import GlobalConfig
 
             global_config = GlobalConfig()
             if not is_dataclass(global_config):

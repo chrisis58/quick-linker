@@ -9,6 +9,7 @@ class GlobalConfig:
     全局配置项
     """
 
+
     mute: list[str] = field(default_factory=list)
     """
     解析文件名时忽略的子串

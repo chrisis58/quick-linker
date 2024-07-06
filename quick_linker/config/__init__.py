@@ -1,2 +1,2 @@
-from .loader import ConfigLoader, Loader
-from .yaml_loader import YamlLoader
+from .global_config import GlobalConfig
+from .logger_config import LoggerConfig
