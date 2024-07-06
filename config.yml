@@ -1,9 +1,12 @@
 config:
+  logger:
+    level: debug
+    filename: qlinker.log
   watchdog:
     enable: true
   global:
     mute: ['1080P']
-    exclude: ['.zip']
+    exclude: ['.zip', '.rar', '.7z']
     format: '{name} - S{season}E{episode} - {meta}'
 tasks:
   mushoku:

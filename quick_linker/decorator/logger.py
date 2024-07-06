@@ -1,16 +1,6 @@
 import logging
 from functools import wraps
 
-# 配置日志记录
-logging.basicConfig(
-    level = logging.DEBUG,
-    format = '%(asctime)s  %(levelname)s --- [%(threadName)s (%(thread)d)] %(name)s : %(message)s',
-    handlers = [
-        logging.FileHandler("app.log"),
-        logging.StreamHandler()
-    ]
-)
-
 
 def Logger(obj):
     logger_name = f'{obj.__module__}.{obj.__name__}'
